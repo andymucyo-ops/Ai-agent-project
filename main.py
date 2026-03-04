@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 from google import genai
+from google.genai import types
 import argparse
 
 def main():
@@ -18,9 +19,11 @@ def main():
     user_input.add_argument("user_prompt", type=str, help="User's prompt")
     args = user_input.parse_args()
 
+    message = [types.Content(role="user", parts=[types.Part(text=args.user_prompt)])]
+
     response = client.models.generate_content(
             model="gemini-2.5-flash",
-            contents=args.user_prompt
+            contents= message
             )
 
     prompt_tokens = response.usage_metadata.prompt_token_count
