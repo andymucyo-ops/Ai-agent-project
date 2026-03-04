@@ -15,9 +15,13 @@ def main():
     client = genai.Client(api_key=api_key)
 
     # generating argparse object that accepts users input
-    user_input = argparse.ArgumentParser(description="Chatbot")
-    user_input.add_argument("user_prompt", type=str, help="User's prompt")
-    args = user_input.parse_args()
+    parser = argparse.ArgumentParser(description="Chatbot")
+    parser.add_argument("user_prompt", type=str, help="User's prompt")
+    parser.add_argument("--verbose", 
+                            action="store_true", 
+                            help="Enable verbose output"
+                            )
+    args = parser.parse_args()
 
     message = [types.Content(role="user", parts=[types.Part(text=args.user_prompt)])]
 
@@ -33,8 +37,11 @@ def main():
         raise RuntimeError("failed Api request")
 
     # print("User prompt:", response )
-    print("Prompt tokens: ", prompt_tokens)
-    print("Response tokens: ", response_tokens)
+    if args.verbose:
+        print("User prompt:\n", args.user_prompt)
+        print("Prompt tokens:\n", prompt_tokens)
+        print("Response tokens:\n", response_tokens)
+    
     print("Response:\n", response.text)
 
 if __name__ == "__main__":
