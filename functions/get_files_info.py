@@ -12,18 +12,19 @@ def get_files_info(working_dir, directory="."):
         valid_target_dir = os.path.commonpath([abs_working_dir, target_dir]) == abs_working_dir
       
         if not valid_target_dir:
-            return f"Error: {directory} cannot be listed, because it is outside of the permitted working directory"
+            raise Exception(f"Error: {directory} cannot be listed, because it is outside of the permitted working directory")
 
-        if not os.path.isdir(directory):
-            return f"{directory} is not a directory"
+        if not os.path.isdir(target_dir):
+            raise Exception(f"Error: {directory} is not a directory")
+        if directory == ".":
+            print("Results for current directory")        
+        else:
+            print(f"Results for '{directory}' directory")
 
         for item in os.listdir(target_dir):
             item_path = os.path.join(target_dir,item) 
-            # print("item_path_abs: ", item_path_abs)
+            # print("item_path_abs: ", item_path)
             print(f"- {item}: file_size={os.path.getsize(item_path)}, is_dir={os.path.isdir(item_path)} ")
 
-    except Exception:
-        print("Error")
-
-if __name__ == "__main__":
-    get_files_info("calculator")
+    except Exception as err:
+        print(err)
