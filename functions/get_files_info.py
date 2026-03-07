@@ -2,6 +2,9 @@ import os
 
 
 def get_files_info(working_dir, directory="."):
+    """
+    function that prints the info of a directroy, the files contained and the size of those files 
+    """
     try:
         abs_working_dir = os.path.abspath(working_dir)
         # print("abs_working_dir: ", abs_working_dir)
