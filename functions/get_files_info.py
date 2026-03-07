@@ -1,18 +1,18 @@
 import os
 
 
-def get_files_info(working_dir, directory="."):
+def get_files_info(working_dir: str, directory: str=".") -> None:
     """
     function that prints the info of a directroy, the files contained and the size of those files 
     """
     try:
-        abs_working_dir = os.path.abspath(working_dir)
+        abs_working_dir: str = os.path.abspath(working_dir)
         # print("abs_working_dir: ", abs_working_dir)
         
-        target_dir = os.path.normpath(os.path.join(abs_working_dir,directory))
+        target_dir: str = os.path.normpath(os.path.join(abs_working_dir,directory))
         # print("target_dir: ", target_dir)
         
-        valid_target_dir = os.path.commonpath([abs_working_dir, target_dir]) == abs_working_dir
+        valid_target_dir: bool = os.path.commonpath([abs_working_dir, target_dir]) == abs_working_dir
       
         if not valid_target_dir:
             raise Exception(f"Error: {directory} cannot be listed, because it is outside of the permitted working directory")

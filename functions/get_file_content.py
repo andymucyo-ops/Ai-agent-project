@@ -1,7 +1,7 @@
 import os
 from config import MAX_CHARS
 
-def get_file_content(working_dir, file_path):
+def get_file_content(working_dir: str, file_path: str) -> str:
     try:
         abs_working_dir: str= os.path.abspath(working_dir)
         # print("abs_working_dir", abs_working_dir)
@@ -27,6 +27,7 @@ def get_file_content(working_dir, file_path):
 
         if len(content) < MAX_CHARS:
             print(content)
+
         return content
 
     except Exception as err:
