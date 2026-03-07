@@ -31,6 +31,3 @@ def get_file_content(working_dir, file_path):
 
     except Exception as err:
         print(err)
-
-    if __name__ == "__main__":
-        get_file_content("calculator", "lorem.txt")
