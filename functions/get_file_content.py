@@ -23,7 +23,7 @@ def get_file_content(working_dir, file_path):
             #adding message to content if chars in file exceeded MAX_CHARS 
             if f.read(1):
                 content += f'[...File "{file_path}" truncated at {MAX_CHARS} characters]'
-                print("File truncated!")
+                print("WARNING: File truncated!")
 
         print(f"{file_path}, bytes count: {len(content)}")
         return content
