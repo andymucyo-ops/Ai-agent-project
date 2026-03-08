@@ -1,9 +1,10 @@
 import os
+from google.genai import types
 
 
 def get_files_info(working_dir: str, directory: str=".") -> None:
     """
-    function that prints the info of a directroy, the files contained and the size of those files 
+    function that prints the info of a directory, the files contained and the size of those files 
     """
     try:
         abs_working_dir: str = os.path.abspath(working_dir)
@@ -31,3 +32,18 @@ def get_files_info(working_dir: str, directory: str=".") -> None:
 
     except Exception as err:
         print(err)
+
+
+schema_get_files_info = types.FunctionDeclaration(
+    name="get_files_info",
+    description="Lists files in a specified directory relative to the working directory, providing file size and directory status",
+    parameters=types.Schema(
+        type=types.Type.OBJECT,
+        properties={
+            "directory": types.Schema(
+                type=types.Type.STRING,
+                description="Directory path to list files from, relative to the working directory (default is the working directory itself)",
+            ),
+        },
+    ),
+)

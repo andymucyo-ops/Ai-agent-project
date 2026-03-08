@@ -3,7 +3,8 @@ from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 import argparse
-from config import system_promt
+from config import system_prompt
+from functions.call_function import available_functions
 
 def main():
 
@@ -29,11 +30,14 @@ def main():
     response = client.models.generate_content(
             model="gemini-2.5-flash",
             contents= message,
-            config=types.GenerateContentConfig(system_instruction=system_promt),
+            config=types.GenerateContentConfig(
+                tools=[available_functions],
+                system_instruction=system_prompt),
             )
 
     prompt_tokens = response.usage_metadata.prompt_token_count
     response_tokens = response.usage_metadata.candidates_token_count
+    function_calls: list[types.FunctionCall] = response.function_calls
 
     if response.usage_metadata is None:
         raise RuntimeError("failed Api request")
@@ -44,7 +48,12 @@ def main():
         print("Prompt tokens:\n", prompt_tokens)
         print("Response tokens:\n", response_tokens)
     
-    print("Response:\n", response.text)
+    if function_calls is None:
+        print("Response:\n", response.text)
+    else:
+        for function_call in function_calls:
+            print(f"Calling function: {function_call.name}({function_call.args})")
+
 
 if __name__ == "__main__":
     main()
