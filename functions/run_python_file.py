@@ -1,7 +1,7 @@
 import os
 import subprocess
 
-def run_python_file(working_directory: str, file_path: str, args = None) -> str:
+def run_python_file(working_directory: str, file_path: str, args = None) -> str | None:
     try:
         abs_working_dir: str= os.path.abspath(working_directory)
         # print("abs_working_dir", abs_working_dir)
@@ -36,10 +36,10 @@ def run_python_file(working_directory: str, file_path: str, args = None) -> str:
         
         if error_string is None and output_string is None:
             print("No output produced")
-        if error_string is not None:
-            print(f"STDERR: {error_string}")
-        if output_string is not None:
-            print(f"STDOUT: {output_string}")
+            return None
+        
+        print(f"STDERR: {error_string}")
+        print(f"STDOUT: {output_string}")
 
         return output_string
 
