@@ -1,7 +1,7 @@
 import os
 import subprocess
 
-def run_python_file(working_directory: str, file_path: str, args = None) -> None:
+def run_python_file(working_directory: str, file_path: str, args = None) -> str:
     try:
         abs_working_dir: str= os.path.abspath(working_directory)
         # print("abs_working_dir", abs_working_dir)
@@ -26,7 +26,7 @@ def run_python_file(working_directory: str, file_path: str, args = None) -> None
         if args is not None:
             commands.extend(args)
 
-        python_process: subprocess.CompletedProcess = subprocess.run(commands, text=True, timeout=30)
+        python_process: subprocess.CompletedProcess = subprocess.run(args=commands, capture_output=True,text=True, timeout=30)
 
         output_string = python_process.stdout
         error_string = python_process.stderr
