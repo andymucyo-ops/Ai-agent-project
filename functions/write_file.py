@@ -1,6 +1,6 @@
 
 import os
-
+from google.genai import types
 
 def write_file(working_dir: str, file_path: str, content: str) -> str | None:
     try: 
@@ -29,3 +29,25 @@ def write_file(working_dir: str, file_path: str, content: str) -> str | None:
     except Exception as err:
         
         print(err)
+
+
+
+schema_write_file = types.FunctionDeclaration(
+    name="write_file",
+    description="enable to write to a specific file, given the file path",
+    parameters=types.Schema(
+        type=types.Type.OBJECT,
+        properties={
+            "file_path": types.Schema(
+                type=types.Type.STRING,
+                description="path to the file to write to, or to create and write to if it doesn't exist",
+            ),
+            "content": types.Schema(
+                type=types.Type.STRING,
+                description="content to be written to the file"
+                )
+        },
+        required=["file_path", "content"]
+    ),
+)
+

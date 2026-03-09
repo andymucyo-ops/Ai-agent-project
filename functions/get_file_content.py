@@ -46,5 +46,6 @@ schema_get_files_content = types.FunctionDeclaration(
                 description="path to the file to read from",
             ),
         },
+        required=["file_path"]
     ),
 )
