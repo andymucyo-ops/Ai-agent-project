@@ -4,7 +4,7 @@ from google import genai
 from google.genai import types
 import argparse
 from config import system_prompt
-from functions.call_function import available_functions
+from functions.call_function import available_functions, call_function
 
 def main():
 
@@ -52,7 +52,28 @@ def main():
         print("Response:\n", response.text)
     else:
         for function_call in function_calls:
-            print(f"Calling function: {function_call.name}({function_call.args})")
+            # print(f"Calling function: {function_call.name}({function_call.args})")
+            function_call_result: types.Content = call_function(function_call)
+    
+    try:
+
+        if function_call_result.parts is None:
+            raise Exception("empty parts list, something went wrong with function call!")
+        if function_call_result.parts[0].function_response is None:
+            raise Exception("No FunctionResponse object found!")
+        if function_call_result.parts[0].function_response.response is None:
+            raise Exception("No function result found!")
+
+    except Exception as e:
+        print(e)
+
+    function_results: list = function_call_result.parts[0]
+
+    if args.verbose: 
+        print(f"-> {function_call_result.parts[0].function_response.response}")
+
+    
+
 
 
 if __name__ == "__main__":
