@@ -1,6 +1,7 @@
 
 from google.genai import types
 
+from config import WORKING_DIR
 from functions.get_file_content import schema_get_file_content, get_file_content
 from functions.get_files_info import schema_get_files_info, get_files_info
 from functions.write_file import schema_write_file, write_file
@@ -44,7 +45,7 @@ def call_function(function_call: types.FunctionCall, verbose: bool=False ) -> ty
         # makinge a shallow copy of the args dictonnary
         args = dict(function_call.args) if function_call.args else {}
 
-    args["working_directory"] = "./calculator"
+    args["working_directory"] = WORKING_DIR
 
     #calling the required function to execute task
     function_result: str = function_map[function_name](**args)

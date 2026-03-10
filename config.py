@@ -1,6 +1,8 @@
 
 MAX_CHARS: int = 10000
 
+WORKING_DIR = "./calculator"
+
 system_prompt = """
 You are a helpful AI coding agent.
 
