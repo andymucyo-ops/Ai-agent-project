@@ -54,28 +54,29 @@ def main():
         print("Prompt tokens:\n", prompt_tokens)
         print("Response tokens:\n", response_tokens)
     
+
     if function_calls is None:
         print("Response:\n", response.text)
-    else:
-        #calling all functions requested by the user
-        for function_call in function_calls:
-            # print(f"Calling function: {function_call.name}({function_call.args})")
-            function_call_result: types.Content = call_function(function_call)
-    
-    # error handling if function call fails
-    try:
-        if function_call_result.parts is None:
-            raise Exception("empty parts list, something went wrong with function call!")
-        if function_call_result.parts[0].function_response is None:
-            raise Exception("No FunctionResponse object found!")
-        if function_call_result.parts[0].function_response.response is None:
-            raise Exception("No function result found!")
+        return
 
-    except Exception as e:
-        print(e)
 
-    # storing result of the called function
-    function_results: list = function_call_result.parts[0]
+    function_results: list[types.Content.part] = []
+    #calling all functions requested by the user
+    for function_call in function_calls:
+        # print(f"Calling function: {function_call.name}({function_call.args})")
+        function_call_result: types.Content = call_function(function_call)
+
+        # storing result of the called function
+        function_results.append(function_call_result.parts[0])
+
+        # error handling if function call fails
+        if (
+            not function_call_result.parts
+            or not function_call_result.parts[0].function_response
+            or not function_call_result.parts[0].function_response.response
+           ):
+           raise RuntimeError(f"no results found for {function_call.name}")
+
 
     if args.verbose: 
         print(f"-> {function_call_result.parts[0].function_response.response}")
