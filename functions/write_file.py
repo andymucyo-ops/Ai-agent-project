@@ -2,9 +2,9 @@
 import os
 from google.genai import types
 
-def write_file(working_dir: str, file_path: str, content: str) -> str | None:
+def write_file(working_directory: str, file_path: str, content: str) -> str | None:
     try: 
-        abs_wd: str = os.path.abspath(working_dir)
+        abs_wd: str = os.path.abspath(working_directory)
 
         abs_file_path: str = os.path.normpath(os.path.join(abs_wd,file_path))
         

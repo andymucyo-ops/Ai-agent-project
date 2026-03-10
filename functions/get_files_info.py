@@ -2,12 +2,12 @@ import os
 from google.genai import types
 
 
-def get_files_info(working_dir: str, directory: str=".") -> None:
+def get_files_info(working_directory: str, directory: str=".") -> None:
     """
     function that prints the info of a directory, the files contained and the size of those files 
     """
     try:
-        abs_working_dir: str = os.path.abspath(working_dir)
+        abs_working_dir: str = os.path.abspath(working_directory)
         # print("abs_working_dir: ", abs_working_dir)
         
         target_dir: str = os.path.normpath(os.path.join(abs_working_dir,directory))

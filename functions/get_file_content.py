@@ -3,9 +3,9 @@ import os
 from google.genai import types
 from config import MAX_CHARS
 
-def get_file_content(working_dir: str, file_path: str) -> str:
+def get_file_content(working_directory: str, file_path: str) -> str:
     try:
-        abs_working_dir: str= os.path.abspath(working_dir)
+        abs_working_dir: str= os.path.abspath(working_directory)
         # print("abs_working_dir", abs_working_dir)
         abs_file_path: str= os.path.normpath(os.path.join(abs_working_dir,file_path))
         # print("abs_file_path", abs_file_path)
