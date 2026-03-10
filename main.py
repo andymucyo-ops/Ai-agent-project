@@ -8,7 +8,7 @@ from functions.call_function import available_functions, call_function
 
 def main():
 
-    # loading GEMINI_API_KEY from .env file
+    # loading .env file to access variables declared in it, here GEMINI_API_KEY
     load_dotenv()
     api_key = os.environ.get("GEMINI_API_KEY")
     if api_key is None:
