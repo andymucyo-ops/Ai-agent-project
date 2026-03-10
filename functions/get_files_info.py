@@ -34,7 +34,7 @@ def get_files_info(working_dir: str, directory: str=".") -> None:
         print(err)
 
 
-schema_get_files_info = types.FunctionDeclaration(
+schema_get_files_info: types.FunctionDeclaration = types.FunctionDeclaration(
     name="get_files_info",
     description="Lists files in a specified directory relative to the working directory, providing file size and directory status",
     parameters=types.Schema(

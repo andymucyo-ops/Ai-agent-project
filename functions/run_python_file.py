@@ -50,7 +50,7 @@ def run_python_file(working_directory: str, file_path: str, args: list[str] | No
         print(f"Error: executing Python File: {err}")
 
 
-schema_run_python_file = types.FunctionDeclaration(
+schema_run_python_file: types.FunctionDeclaration = types.FunctionDeclaration(
     name="run_python_file",
     description="run .py files by executing specific commands passed to it as args of the function",
     parameters=types.Schema(

@@ -32,7 +32,7 @@ def write_file(working_dir: str, file_path: str, content: str) -> str | None:
 
 
 
-schema_write_file = types.FunctionDeclaration(
+schema_write_file: types.FunctionDeclaration = types.FunctionDeclaration(
     name="write_file",
     description="enable to write to a specific file, given the file path",
     parameters=types.Schema(
