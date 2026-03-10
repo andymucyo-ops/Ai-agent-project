@@ -16,7 +16,7 @@ available_functions = types.Tool(
             ],
         )
 
-def call_function(function_call: types.FunctionCall, verbose: bool=False ) -> str | None:
+def call_function(function_call: types.FunctionCall, verbose: bool=False ) -> type.Content:
 
     function_name = function_call.name or "" 
     
