@@ -5,11 +5,8 @@ from google.genai import types
 def run_python_file(working_directory: str, file_path: str, args: list[str] | None = None) -> str | None:
     try:
         abs_working_dir: str= os.path.abspath(working_directory)
-        # print("abs_working_dir", abs_working_dir)
         abs_file_path: str= os.path.normpath(os.path.join(abs_working_dir,file_path))
-        # print("abs_file_path", abs_file_path)
         valid_dir: bool = os.path.commonpath([abs_working_dir,abs_file_path]) == abs_working_dir
-        # print("valid_dir", valid_dir)
         
         if not valid_dir: 
             raise Exception(f'Error: Cannot execute "{file_path}" as it is outside the permitted working directory')
@@ -49,7 +46,7 @@ def run_python_file(working_directory: str, file_path: str, args: list[str] | No
     except Exception as err:
         print(f"Error: executing Python File: {err}")
 
-
+# create function declaration object to be stored for available functions to call by the agent
 schema_run_python_file: types.FunctionDeclaration = types.FunctionDeclaration(
     name="run_python_file",
     description="run .py files by executing specific commands passed to it as args of the function",

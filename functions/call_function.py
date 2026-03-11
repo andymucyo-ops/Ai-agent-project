@@ -7,7 +7,7 @@ from functions.get_files_info import schema_get_files_info, get_files_info
 from functions.write_file import schema_write_file, write_file
 from functions.run_python_file import schema_run_python_file, run_python_file 
 
-
+#store available functions as tools to be used by the agent from all functions created
 available_functions = types.Tool(
         function_declarations=[
             schema_get_files_info,

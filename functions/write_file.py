@@ -5,9 +5,7 @@ from google.genai import types
 def write_file(working_directory: str, file_path: str, content: str) -> str | None:
     try: 
         abs_wd: str = os.path.abspath(working_directory)
-
         abs_file_path: str = os.path.normpath(os.path.join(abs_wd,file_path))
-        
         valid_path: bool = os.path.commonpath([abs_wd,abs_file_path]) == abs_wd
 
         if not valid_path: 
@@ -31,7 +29,7 @@ def write_file(working_directory: str, file_path: str, content: str) -> str | No
         print(err)
 
 
-
+# create function declaration object to be stored for available functions to call by the agent
 schema_write_file: types.FunctionDeclaration = types.FunctionDeclaration(
     name="write_file",
     description="enable to write to a specific file, given the file path",
