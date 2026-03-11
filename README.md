@@ -1,4 +1,3 @@
-```markdown
 # AI Agent Project
 
 A simple AI agent built as part of the [boot.dev](https://www.boot.dev) back-end developer curriculum.
@@ -29,3 +28,4 @@ uv sync
 uv run main.py "<instructions>"
 ```
 ```
+
