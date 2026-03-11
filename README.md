@@ -27,5 +27,5 @@ uv sync
 ```bash
 uv run main.py "<instructions>"
 ```
-```
+
 
