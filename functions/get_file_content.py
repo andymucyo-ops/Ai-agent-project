@@ -27,8 +27,8 @@ def get_file_content(working_directory: str, file_path: str) -> str:
                 content += f'[...File "{file_path}" truncated at {MAX_CHARS} characters]'
                 print("WARNING: File truncated!")
 
-        if len(content) < MAX_CHARS:
-            print(content)
+        # if len(content) < MAX_CHARS:
+            # print(content)
 
         return content
 

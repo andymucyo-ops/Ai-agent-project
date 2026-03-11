@@ -20,16 +20,22 @@ def get_files_info(working_directory: str, directory: str=".") -> None:
 
         if not os.path.isdir(target_dir):
             raise Exception(f"Error: {directory} is not a directory")
-        if directory == ".":
-            print("Results for current directory")        
-        else:
-            print(f"Results for '{directory}' directory")
+        # if directory == ".":
+        #     print("Results for current directory")        
+        # else:
+        #     print(f"Results for '{directory}' directory")
+        #
 
-        for item in os.listdir(target_dir):
-            item_path = os.path.join(target_dir,item) 
+
+        file_info = []
+        for file in os.listdir(target_dir):
+            file_path = os.path.join(target_dir,file) 
+            file_size = os.path.getsize(file_path)
+            is_dir = os.path.isdir(file_path)
             # print("item_path_abs: ", item_path)
-            print(f"- {item}: file_size={os.path.getsize(item_path)}, is_dir={os.path.isdir(item_path)} ")
+            file_info.append(f"- {file}: file_size={file_size}, is_dir={is_dir} ")
 
+        return "\n".join(file_info)
     except Exception as err:
         print(err)
 

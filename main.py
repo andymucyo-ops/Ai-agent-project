@@ -1,9 +1,10 @@
 import os
+import sys
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 import argparse
-from config import system_prompt
+from config import MAX_ITER, system_prompt
 from functions.call_function import available_functions, call_function
 
 def main():
@@ -25,23 +26,49 @@ def main():
                             )
     args = parser.parse_args()
 
+    if args.verbose:
+        print("User prompt:\n", args.user_prompt)
     #assign user's promt to message variable
-    message = [types.Content(role="user", parts=[types.Part(text=args.user_prompt)])]
+    messages = [types.Content(role="user", parts=[types.Part(text=args.user_prompt)])]
+    # function_results: list[types.Content.part] = []
+    # prompt_history: list[types.GenerateContentResponse.candidates] = []
 
-    #assign Gemini reponse to resdponse variable
+    for _ in range(MAX_ITER):
+        generate_content(client, messages, args.verbose)
+        if generate_content(client, messages, args.verbose) == 0:
+             break
+        if _ == MAX_ITER:
+            sys.exit(1)
+            
+
+
+
+
+def generate_content(client, messages, verbose ):
+    # initalize empty list to store content previous prompts
+    prompt_history: list[types.GenerateContentResponse.candidates] = []
+    #assign Gemini reponse to response variable
     response = client.models.generate_content(
             model="gemini-2.5-flash",
-            contents= message,
+            contents= messages,
             config=types.GenerateContentConfig(
                 tools=[available_functions],
                 system_instruction=system_prompt),
             )
 
+    if response.candidates:
+        prompt_history.append(response.candidates)
+
+
+    for candidates_list in prompt_history:
+        for candidate in candidates_list:
+            messages.append(candidate.content)
+
     # keep track of token usage
     prompt_tokens = response.usage_metadata.prompt_token_count
     response_tokens = response.usage_metadata.candidates_token_count
 
-    #storing function calls of reponse as a list
+    #storing function calls of response as a list
     function_calls: list[types.FunctionCall] = response.function_calls
 
     if response.usage_metadata is None:
@@ -49,18 +76,17 @@ def main():
 
     # output formatting given the arguments passed by the user
     # print("User prompt:", response )
-    if args.verbose:
-        print("User prompt:\n", args.user_prompt)
+    if verbose:
         print("Prompt tokens:\n", prompt_tokens)
         print("Response tokens:\n", response_tokens)
     
 
     if function_calls is None:
         print("Response:\n", response.text)
-        return
+        return 0 
 
 
-    function_results: list[types.Content.part] = []
+    function_results: list[types.Content.part] = [] 
     #calling all functions requested by the user
     for function_call in function_calls:
         # print(f"Calling function: {function_call.name}({function_call.args})")
@@ -78,8 +104,11 @@ def main():
            raise RuntimeError(f"no results found for {function_call.name}")
 
 
-    if args.verbose: 
+    if verbose: 
         print(f"-> {function_call_result.parts[0].function_response.response}")
+
+    messages.append(types.Content(role="user", parts=function_results))
+
 
     
 
