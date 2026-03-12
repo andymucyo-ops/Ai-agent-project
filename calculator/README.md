@@ -1,1 +1,1 @@
-# calculator
+This `calculator` directory serves as a test environment for the agent to interact with and perform various operations.
